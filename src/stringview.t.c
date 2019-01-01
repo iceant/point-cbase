@@ -40,23 +40,35 @@ int main(int argc, char** argv){
     StringView s2 = StringView_put("World");
 
     StringView s1_space_s2 = StringView_cat(s1, s2);
-    printf("StringView_cat(%s, %s)\n", s1.string, s2.string);
+    cstr1 = StringView_cstr(NULL, 0, s1);
+    printf("StringView_cat(%s, %s)\n", cstr1, s2.string);
+    free(cstr1); cstr1 = NULL;
     hexdump(s1_space_s2.string, s1_space_s2.length);
 
     StringView s2dup1 = StringView_dup(s2, 1);
-    printf("StringView_dup('%s', 1)=%s\n", s2.string, s2dup1.string);
+    cstr1 = StringView_cstr(NULL, 0, s2);
+    printf("StringView_dup('%s', 1)=%s\n", cstr1, s2dup1.string);
+    free(cstr1); cstr1=NULL;
 
     StringView s2dup2 = StringView_dup(s2, 2);
-    printf("StringView_dup('%s', 2)=%s\n", s2.string, s2dup2.string);
+    cstr1 = StringView_cstr(NULL, 0, s2);
+    printf("StringView_dup('%s', 2)=%s\n", cstr1, s2dup2.string);
+    free(cstr1); cstr1 = NULL;
 
     StringView s2dup3 = StringView_dup(s2, 3);
-    printf("StringView_dup('%s', 3)=%s\n", s2.string, s2dup3.string);
+    cstr1 = StringView_cstr(NULL, 0, s2);
+    printf("StringView_dup('%s', 3)=%s\n", cstr1, s2dup3.string);
+    free(cstr1); cstr1 = NULL;
 
     StringView s2_reverse = StringView_reverse(s2);
-    printf("StringView_reverse('%s')=%s\n", s2.string, s2_reverse.string);
+    cstr1 = StringView_cstr(NULL, 0, s2);
+    printf("StringView_reverse('%s')=%s\n", cstr1, s2_reverse.string);
+    free(cstr1); cstr1 = NULL;
 
     StringView s2_map = StringView_map(s2_reverse, &StringView_LCASE, &StringView_UCASE);
-    printf("StringView_map('%s', LCASE, UCASE)=%s\n", s2_reverse.string, s2_map.string);
+    cstr1 = StringView_cstr(NULL, 0, s2_reverse);
+    printf("StringView_map('%s', LCASE, UCASE)=%s\n", cstr1, s2_map.string);
+    free(cstr1); cstr1 = NULL;
 
     Fmt_register('T', StringView_fmt);
     Fmt_print("%T\n", &s1);
