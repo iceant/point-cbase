@@ -21,12 +21,15 @@ int main(int argc, char** argv){
     ScopeGuard * scope_p = ScopeGuard_new();
 
     void* mem_p = malloc(SIZE);
+    if(mem_p==NULL) goto _exit;
     printf("allocated memory at %x\n", mem_p);
     ScopeGuard_onExit(scope_p, ScopeGuard_FreeMemory, mem_p);
     memset(mem_p, 1, SIZE);
     hexdump(mem_p, SIZE);
 
-    void * mem_p2 = malloc(SIZE*2);
+    void * mem_p2 = NULL;
+    mem_p2 = malloc(SIZE*2);
+    if(mem_p2==NULL) goto _exit;
     printf("allocated memory at %x\n", mem_p2);
     ScopeGuard_onExit(scope_p, ScopeGuard_FreeMemory, mem_p2);
 
@@ -37,6 +40,7 @@ int main(int argc, char** argv){
         free(mem_p2);
     }
 
+    _exit:
     ScopeGuard_exit(&scope_p);
 
 
