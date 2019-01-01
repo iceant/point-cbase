@@ -19,7 +19,11 @@ add_library(point-cbase
         src/str.h
         src/str.c
         src/stringview.h
-        src/stringview.c)
+        src/stringview.c
+        src/array.h
+        src/array.c
+        src/list.h
+        src/list.c)
 
 add_executable(scopeguard.t src/scopeguard.t.c)
 target_link_libraries(scopeguard.t point-cbase)
@@ -41,3 +45,9 @@ target_link_libraries(str.t point-cbase)
 
 add_executable(stringview.t src/stringview.t.c)
 target_link_libraries(stringview.t point-cbase)
+
+add_executable(array.t src/array.t.c)
+target_link_libraries(array.t point-cbase)
+
+add_executable(list.t src/list.t.c)
+target_link_libraries(list.t point-cbase)

@@ -205,6 +205,7 @@ int main(int argc, char** argv){
     Graph_print(graph_p);
 
     Graph_removeNode(graph_p, n3);
+//    Graph_removeEdge(graph_p, Graph_findEdge(graph_p, n3, n2));
 
     Graph_print(graph_p);
 
