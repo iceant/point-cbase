@@ -1,10 +1,20 @@
 //
 // Created by pchen on 12/30/18.
 //
-
+#ifndef INCLUDED_STDIO_H
+#define INCLUDED_STDIO_H
 #include <stdio.h>
+#endif //INCLUDED_STDIO_H
+
+#ifndef INCLUDED_ASSERT_H
+#define INCLUDED_ASSERT_H
+#include <assert.h>
+#endif // INCLUDED_ASSERT_H
 
 void hexdump(const void* data, size_t size) {
+    assert(data!=NULL);
+    assert(size>0);
+
     char ascii[17];
     size_t i, j;
     ascii[16] = '\0';

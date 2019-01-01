@@ -3,7 +3,23 @@ project(point_cbase)
 
 set(CMAKE_C_STANDARD 90)
 
-add_library(point-cbase src/scopeguard.c src/scopeguard.t.c src/hexdump.c src/ptrbag.h src/ptrbag.c src/ptrbag.t.c src/blocklist.h src/blocklist.c src/blocklist.t.c src/pool.h src/pool.c src/pool.t.c src/stopwatch.h src/stopwatch.c)
+add_library(point-cbase
+        src/scopeguard.h
+        src/scopeguard.c
+        src/ptrbag.h
+        src/ptrbag.c
+        src/blocklist.h
+        src/blocklist.c
+        src/pool.h
+        src/pool.c
+        src/stopwatch.h
+        src/stopwatch.c
+        src/fmt.h
+        src/fmt.c
+        src/str.h
+        src/str.c
+        src/stringview.h
+        src/stringview.c)
 
 add_executable(scopeguard.t src/scopeguard.t.c)
 target_link_libraries(scopeguard.t point-cbase)
@@ -16,3 +32,12 @@ target_link_libraries(blocklist.t point-cbase)
 
 add_executable(pool.t src/pool.t.c)
 target_link_libraries(pool.t point-cbase)
+
+add_executable(fmt.t src/fmt.t.c)
+target_link_libraries(fmt.t point-cbase)
+
+add_executable(str.t src/str.t.c)
+target_link_libraries(str.t point-cbase)
+
+add_executable(stringview.t src/stringview.t.c)
+target_link_libraries(stringview.t point-cbase)
