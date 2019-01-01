@@ -41,6 +41,8 @@ Node* Node_new(const char* name){
 }
 
 void Node_delete(Node* node){
+    assert(node);
+    assert(node->d_edges_p);
     if(node==NULL) return;
     printf("delete node(%s)\n", node->d_name_p);
     PtrBag_delete(&node->d_edges_p);
@@ -108,6 +110,13 @@ Node* Graph_findNode(Graph* graph, const char* nodeName){
 void Graph_removeNode(Graph* graph, Node* node){
     assert(graph);
     assert(node);
+    PtrBagManip * manip = PtrBagManip_new(node->d_edges_p);
+    while(PtrBagManip_hasNext(manip)){
+        Edge* edge = PtrBagManip_get(manip);
+        PtrBag_remove(graph->d_edges_p, edge);
+        PtrBagManip_remove(manip);
+    }
+    PtrBagManip_delete(&manip);
     PtrBag_remove(graph->d_nodes_p, node);
 }
 
@@ -192,6 +201,10 @@ int main(int argc, char** argv){
     Graph_addEdge(graph_p, Graph_findNode(graph_p, "Rick"), Graph_findNode(graph_p, "Franklin"), 2);
 
     Graph_addEdge(graph_p, Graph_findNode(graph_p, "Rick"), Graph_findNode(graph_p, "Cathy"), 3);
+
+    Graph_print(graph_p);
+
+    Graph_removeNode(graph_p, n3);
 
     Graph_print(graph_p);
 

@@ -59,7 +59,7 @@ int PtrBagManip_hasNext(PtrBagManip* ptrBagManip){
 
 void* PtrBagManip_get(PtrBagManip* ptrBagManip){
     assert(ptrBagManip);
-    return (*(ptrBagManip->d_addrLink_p))->d_pointer_p;
+    return (*ptrBagManip->d_addrLink_p)->d_pointer_p;
 }
 
 void PtrBagManip_remove(PtrBagManip* ptrBagManip){
@@ -71,7 +71,7 @@ void PtrBagManip_remove(PtrBagManip* ptrBagManip){
 
 void PtrBagManip_next(PtrBagManip* ptrBagManip){
     assert(ptrBagManip);
-    *(ptrBagManip->d_addrLink_p) = (*ptrBagManip->d_addrLink_p)->d_next_p;
+    ptrBagManip->d_addrLink_p = &(*ptrBagManip->d_addrLink_p)->d_next_p;
 }
 
 //////////////////////////////////////////////////////////////////////////////
