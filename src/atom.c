@@ -8,6 +8,14 @@
 #include <limits.h>
 #include <stdlib.h>
 
+#ifndef LONG_LONG_MAX
+#define LONG_LONG_MAX LLONG_MAX
+#endif
+
+#ifndef LONG_LONG_MIN
+#define LONG_LONG_MIN LLONG_MIN
+#endif
+
 #define NELEMS(x) ((sizeof (x))/(sizeof ((x)[0])))
 
 static struct atom {
