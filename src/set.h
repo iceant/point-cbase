@@ -42,7 +42,10 @@ int Set_member(Set *set, const void *member);
 
 void** Set_toArray(Set* set, void* end);
     // void** array = Set_toArray(set, NULL);
-    // ...
+    // int i;
+    // for(i=0;array[i];i++){
+    //  ... deal with array[i]
+    // }
     // free(array); array = NULL; /* REMEMBER TO FREE 'array' */
 
 #endif //POINT_CBASE_SET_H
