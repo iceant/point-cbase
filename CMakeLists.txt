@@ -28,6 +28,8 @@ add_library(point-cbase
         src/list.c
         src/table.h
         src/table.c
+        src/set.h
+        src/set.c
         )
 
 add_subdirectory(examples)
@@ -61,3 +63,6 @@ target_link_libraries(list.t point-cbase)
 
 add_executable(atom.t src/atom.t.c)
 target_link_libraries(atom.t point-cbase)
+
+add_executable(set.t src/set.t.c)
+target_link_libraries(set.t point-cbase)

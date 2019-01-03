@@ -5,10 +5,14 @@
 #include "getword.h"
 #include <assert.h>
 
-int getword(FILE *fp, char *buf, int size,
-            int first(int c), int rest(int c)) {
-    int i = 0, c;
+int getword(FILE *fp,
+            char *buf,
+            int size,
+            int first(int c),
+            int rest(int c)
+) {
     assert(fp && buf && size > 1 && first && rest);
+    int i = 0, c;
     c = getc(fp);
     for (; c != EOF; c = getc(fp)) {
         if (first(c)) {
@@ -25,7 +29,7 @@ int getword(FILE *fp, char *buf, int size,
             buf[i++] = c;
     }
     if (i < size)
-        buf[i] = '\0';
+        buf[i]                    = '\0';
     else
         buf[size - 1] = '\0';
     if (c != EOF)
