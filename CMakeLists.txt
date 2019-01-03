@@ -4,6 +4,8 @@ project(point_cbase)
 set(CMAKE_C_STANDARD 90)
 
 add_library(point-cbase
+        src/atom.h
+        src/atom.c
         src/scopeguard.h
         src/scopeguard.c
         src/ptrbag.h
@@ -23,7 +25,12 @@ add_library(point-cbase
         src/array.h
         src/array.c
         src/list.h
-        src/list.c)
+        src/list.c
+        src/table.h
+        src/table.c
+        )
+
+add_subdirectory(examples)
 
 add_executable(scopeguard.t src/scopeguard.t.c)
 target_link_libraries(scopeguard.t point-cbase)
@@ -51,3 +58,4 @@ target_link_libraries(array.t point-cbase)
 
 add_executable(list.t src/list.t.c)
 target_link_libraries(list.t point-cbase)
+
