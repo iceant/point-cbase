@@ -85,6 +85,24 @@ const char *Atom_int(long n) {
     return Atom_new(s, (str + sizeof str) - s);
 }
 
+const char *Atom_int64(long long n) {
+    char str[43];
+    char *s = str + sizeof str;
+    unsigned long long m;
+    if (n == LONG_LONG_MIN)
+        m = LONG_LONG_MAX + 1ULL;
+    else if (n < 0)
+        m = -n;
+    else
+        m = n;
+    do
+        *--s = m % 10 + '0';
+    while ((m /= 10) > 0);
+    if (n < 0)
+        *--s = '-';
+    return Atom_new(s, (str + sizeof str) - s);
+}
+
 const char *Atom_new(const char *str, int len) {
     assert(str);
     assert(len >= 0);

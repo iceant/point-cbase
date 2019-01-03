@@ -59,3 +59,5 @@ target_link_libraries(array.t point-cbase)
 add_executable(list.t src/list.t.c)
 target_link_libraries(list.t point-cbase)
 
+add_executable(atom.t src/atom.t.c)
+target_link_libraries(atom.t point-cbase)
