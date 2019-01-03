@@ -8,11 +8,11 @@
 #include <limits.h>
 #include <stdlib.h>
 
-#ifndef LONG_LONG_MAX
+#if defined(LLONG_MAX) && !defined(LONG_LONG_MAX)
 #define LONG_LONG_MAX LLONG_MAX
 #endif
 
-#ifndef LONG_LONG_MIN
+#if defined(LLONG_MIN) && !defined(LONG_LONG_MIN)
 #define LONG_LONG_MIN LLONG_MIN
 #endif
 
