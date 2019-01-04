@@ -37,7 +37,7 @@ int main(int argc, char** argv){
     int *p = Ring_get(ring, 0);
     printf("\tring(0)=%d\n", *p);
     
-    printf("rotate 4\n");
+    printf("rotate 2\n");
     Ring_rotate(ring, 2);
     p = Ring_get(ring, 0);
     printf("\tring(0)=%d\n", *p);
