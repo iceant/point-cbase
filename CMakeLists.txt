@@ -30,6 +30,8 @@ add_library(point-cbase
         src/table.c
         src/set.h
         src/set.c
+        src/bit.h
+        src/bit.c
         )
 
 add_subdirectory(examples)
@@ -66,3 +68,6 @@ target_link_libraries(atom.t point-cbase)
 
 add_executable(set.t src/set.t.c)
 target_link_libraries(set.t point-cbase)
+
+add_executable(bit.t src/bit.t.c)
+target_link_libraries(bit.t point-cbase)
