@@ -21,7 +21,7 @@ BlockList* BlockList_new(BlockList_malloc, BlockList_free);
 void BlockList_delete(BlockList**);
     // Destroy the object and all associated blocks of memory.
 
-void* BlockList_allocate(BlockList*, unsigned long nBytes);
+void* BlockList_allocate(BlockList*, size_t nBytes);
     // Allocate block of memory of specified number of bytes
 
 void BlockList_release(BlockList*);

@@ -54,7 +54,7 @@ void BlockList_release(BlockList* blockList){
     }
 }
 
-void* BlockList_allocate(BlockList* blockList, unsigned long nBytes){
+void* BlockList_allocate(BlockList* blockList, size_t nBytes){
     void* p = blockList->malloc(nBytes);
     assert(p);
     BlockLink * link = blockList->malloc(sizeof(*link));
