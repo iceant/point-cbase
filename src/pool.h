@@ -5,9 +5,14 @@
 #ifndef POINT_CBASE_POOL_H
 #define POINT_CBASE_POOL_H
 
+#ifndef INCLUDED_STDDEF_H
+#define INCLUDED_STDDEF_H
+#include <stddef.h>
+#endif //INCLUDED_STDDEF_H
+
 typedef struct Pool Pool;
 
-Pool* Pool_new(int objectSize, int chunkSize, void* (*mallocFn)(unsigned long), void (*freeFn)(void*));
+Pool* Pool_new(int objectSize, int chunkSize, void* (*mallocFn)(size_t), void (*freeFn)(void*));
     // Create an allocator for a pool of specified size
 
 void Pool_delete(Pool**);

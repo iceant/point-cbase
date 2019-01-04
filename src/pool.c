@@ -35,7 +35,7 @@ void Pool_replenish(Pool* pool){
     pool->d_freeList_p = (struct Link*)start;
 }
 
-Pool* Pool_new(int objectSize, int chunkSize, void* (*mallocFn)(unsigned long), void (*freeFn)(void*)){
+Pool* Pool_new(int objectSize, int chunkSize, void* (*mallocFn)(size_t), void (*freeFn)(void*)){
     Pool* pool = malloc(sizeof(*pool));
     assert(pool);
     pool->d_freeList_p = NULL;

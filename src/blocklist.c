@@ -26,7 +26,7 @@ BlockList* BlockList_new(BlockList_malloc mallocFn, BlockList_free freeFn){
     BlockList * p = mallocFn?mallocFn(sizeof(*p)):malloc(sizeof(*p));
     assert(p);
     p->d_blockList_p = NULL;
-    p->malloc = mallocFn?mallocFn:malloc;
+    p->malloc =mallocFn?mallocFn:malloc;
     p->free = freeFn?freeFn:free;
     return p;
 }

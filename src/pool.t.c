@@ -8,7 +8,7 @@
 #include <assert.h>
 #include "stopwatch.h"
 
-void* Demo_Malloc(unsigned long nBytes){
+void* Demo_Malloc(size_t nBytes){
     void* p = malloc(nBytes);
     printf("\t...malloc(%d): %x\n", nBytes, p);
     return p;

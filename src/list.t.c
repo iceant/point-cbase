@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#include <string.h>
 
 void List_print(void** x, void* cl){
     char** str = (char** )x;
@@ -66,7 +67,7 @@ int main(int argc, char** argv){
     printf("-------------------------------\n");
 
     for(i=0; i<len; i++){
-        l2 = List_pop(l2, &buf);
+        l2 = List_pop(l2, (void**)&buf);
         printf("[%d]%s\n",i, *buf);
     }
 
