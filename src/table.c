@@ -5,6 +5,7 @@
 #include "table.h"
 #include <stdlib.h>
 #include <assert.h>
+#include <limits.h>
 
 #define FREE(p)\
     free((p)); (p)=NULL;

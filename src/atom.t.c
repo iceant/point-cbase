@@ -7,9 +7,13 @@
 #include <stdio.h>
 #include <limits.h>
 
+#if defined(LLONG_MAX) && !defined(LONG_LONG_MAX)
+#define LONG_LONG_MAX LLONG_MAX
+#endif
+
 int main(int argc, char** argv){
     
-    long intVal = LONG_MAX;
+    long intVal = INT_MAX;
     const char* aIntAtom = Atom_int(intVal);
     printf("Atom_int(%ld)=%s\n", intVal, aIntAtom);
     
