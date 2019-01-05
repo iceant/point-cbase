@@ -14,5 +14,15 @@ const char *Atom_int(long n);
 
 const char *Atom_int64(long long n);
 
+void Atom_vload(const char* str, ...);
+    // NULL end
+
+void Atom_aload(const char* strs[]);
+    // NULL end array
+
+void Atom_free(const char* str);
+
+void Atom_reset(void);
+    // FREE ALL MEMORY
 
 #endif //INCLUDED_POINT_CBASE_ATOM_H

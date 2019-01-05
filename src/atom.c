@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 #if defined(LLONG_MAX) && !defined(LONG_LONG_MAX)
 #define LONG_LONG_MAX LLONG_MAX
@@ -18,11 +19,13 @@
 
 #define NELEMS(x) ((sizeof (x))/(sizeof ((x)[0])))
 
+#define ATOM_BUCKETS_SIZE 2048
+
 static struct atom {
     struct atom *link;
     int len;
     char *str;
-} *buckets[2048];
+} *buckets[ATOM_BUCKETS_SIZE];
 
 static unsigned long scatter[] = {
         2078917053, 143302914, 1027100827, 1953210302, 755253631, 2002600785,
@@ -153,4 +156,61 @@ int Atom_length(const char *str) {
                 return p->len;
     assert(0);
     return 0;
+}
+
+void Atom_vload(const char *x, ...) {
+    assert(x);
+    va_list ap;
+    va_start(ap, x);
+    for ( ; x; x = va_arg(ap, char *)) {
+        Atom_new(x, strlen(x));
+    }
+    va_end(ap);
+}
+
+void Atom_aload(const char** strs) {
+    assert(strs);
+    int i;
+    for(i=0; strs[i]; i++){
+        Atom_new(strs[i], strlen(strs[i]));
+    }
+}
+
+void Atom_free(const char *str) {
+    if(str==NULL) return;
+
+    unsigned long h;
+    int i;
+    struct atom **p;
+    unsigned long len;
+
+    len = strlen(str);
+    for (h = 0, i = 0; i < len; i++){
+        h = (h << 1) + scatter[(unsigned char) str[i]];
+    }
+    h &= NELEMS(buckets) - 1;
+    for (p = &buckets[h]; *p; p = &(*p)->link){
+        if (len == (*p)->len) {
+            for (i = 0; i < len && (*p)->str[i] == str[i];)
+                i++;
+            if (i == len){
+                struct atom * tmp = *p;
+                *p = (*p)->link;
+                free(tmp); tmp = NULL;
+                break;
+            }
+        }
+    }
+}
+
+void Atom_reset(void) {
+    unsigned long h;
+    struct atom** p;
+    for(h = 0; h<ATOM_BUCKETS_SIZE; h++){
+        for(p = &buckets[h]; *p; ){
+            struct atom * tmp = *p;
+            *p = (*p)->link;
+            free(tmp); tmp = NULL;
+        }
+    }
 }
