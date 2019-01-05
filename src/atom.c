@@ -197,7 +197,7 @@ void Atom_free(const char *str) {
                 struct atom * tmp = *p;
                 *p = (*p)->link;
                 free(tmp); tmp = NULL;
-                break;
+                return;
             }
         }
     }

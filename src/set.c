@@ -7,9 +7,6 @@
 #include <assert.h>
 #include <limits.h>
 
-#define FREE(p)\
-    free((p)); (p)=NULL;
-
 struct Set {
     int      length;
     unsigned timestamp;
@@ -59,13 +56,16 @@ static Set *Set_copy(Set *t, int hint) {
     return set;
 }
 
-static int Arith_max(int x, int y) {
-    return x > y ? x : y;
-}
+//////////////////////////////////////////////////////////////////////////////
+////
+#define FREE(p)\
+    free((p)); (p)=NULL;
 
-static int Arith_min(int x, int y) {
-    return x > y ? y : x;
-}
+#define Arith_max(x, y) \
+    (x) > (y) ? (x) : (y)
+
+#define Arith_min(x, y)\
+    (x) > (y) ? (y) : (x)
 
 //////////////////////////////////////////////////////////////////////////////
 ////
