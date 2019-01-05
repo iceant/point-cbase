@@ -86,6 +86,13 @@ StringView StringView_assign(const char *str, unsigned int size) {
     return result;
 }
 
+StringView StringView_put(const char *str) {
+    StringView result;
+    result.length = strlen(str);
+    result.string = memcpy(alloc(result.length), str, result.length);
+    return result;
+}
+
 const char *StringView_cstr(char *dst, int size, const StringView s) {
     assert(s.length>=0 && s.string);
     if(dst==NULL){
@@ -96,13 +103,6 @@ const char *StringView_cstr(char *dst, int size, const StringView s) {
     memcpy(dst, s.string, s.length);
     dst[s.length]='\0';
     return dst;
-}
-
-StringView StringView_put(const char *str) {
-    StringView result;
-    result.length = strlen(str);
-    result.string = memcpy(alloc(result.length), str, result.length);
-    return result;
 }
 
 StringView StringView_sub(StringView stringView, int idx_from, int idx_to) {
@@ -438,4 +438,13 @@ void StringView_fmt(int code, va_list_box *box,
     assert(s && s->length >= 0 && s->string);
     Fmt_puts(s->string, s->length, put, cl, flags,
              width, precision);
+}
+
+void StringView_reset(void) {
+    struct chunk ** p;
+    for(p = &head.link; *p;){
+        struct chunk * tmp = *p;
+        *p = (*p)->link;
+        free(tmp); tmp = NULL;
+    }
 }

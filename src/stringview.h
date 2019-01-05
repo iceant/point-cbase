@@ -31,6 +31,8 @@ StringView StringView_put(const char* str);
 
 StringView StringView_assign(const char* str, unsigned int size);
 
+void StringView_reset(void);
+
 const char* StringView_cstr(char* dst /*free(ret) when dst=NULL*/,
         int size,
         const StringView stringView);

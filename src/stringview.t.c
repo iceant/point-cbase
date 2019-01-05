@@ -105,5 +105,5 @@ int main(int argc, char** argv){
     printf("StringView_many('%s', 3, 0, 'llo')=%d\n", cstr1, ret);
     free((void*)cstr1);cstr1=NULL;
 
-
+    StringView_reset();
 }
