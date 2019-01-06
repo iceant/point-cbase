@@ -8,3 +8,6 @@ target_link_libraries(wf point-cbase)
 
 add_executable(xref xref.c getword.c)
 target_link_libraries(xref point-cbase)
+
+add_executable(domain.t domain.t.c domain.c)
+target_link_libraries(domain.t point-cbase)
