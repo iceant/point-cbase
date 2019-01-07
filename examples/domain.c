@@ -47,6 +47,7 @@ Domain *Domain_new(const char *name) {
     assert(p);
     p->d_name_p = (char*)(p+1);
     memcpy(p->d_name_p, name, len);
+    p->d_name_p[len] = '\0';
     p->d_entities_p = PtrBag_new();
     p->d_relationships_p = PtrBag_new();
     return p;

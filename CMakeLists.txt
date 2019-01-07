@@ -34,7 +34,7 @@ add_library(point-cbase
         src/bit.c
         src/ring.h
         src/ring.c
-        src/stack.c src/stack.h)
+        src/stack.c src/stack.h src/bitree.c src/bitree.h)
 
 add_subdirectory(examples)
 

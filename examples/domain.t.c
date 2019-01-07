@@ -10,6 +10,9 @@
 #include <stack.h>
 #include <fmt.h>
 #include <atom.h>
+#ifdef __WIN32
+#include <windows.h>
+#endif
 
 #define MAZE_BLOCK 1
 #define MAZE_USED 2
@@ -35,6 +38,19 @@ typedef struct Step{
     int direction;
 }Step;
 
+#ifdef __WIN32
+#define gotoxy(x, y)\
+    do{\
+        COORD coord;\
+        HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);\
+        coord.X = (x);\
+        coord.Y = (y);\
+        SetConsoleCursorPosition(hStdout, coord);\
+    }while(0)
+#else
+#define gotoxy(x,y) printf("\033[%d;%dH", (x), (y))
+#endif
+
 static inline
 const char* make_atom(int x, int y){
     char* str = Fmt_string("%d,%d", x, y);
@@ -57,95 +73,87 @@ Step* make_step(int order, Point* point, int direction){
 
 void findPath(Point *start, Point *end, Stack* stack, Domain* domain);
 
+static const char * map =
+        "XXXXXXXXXX"
+        "XS X   X X"
+        "X XX   X X"
+        "X    XX  X"
+        "X  XXX   X"
+        "X    X   X"
+        "X X   X  X"
+        "X XXX XX X"
+        "XX      EX"
+        "XXXXXXXXXX";
 
 int main(int argc, char** argv){
     Domain* domain = Domain_new("maze");
 
-    printf("New Domain:%s\n", Domain_name(domain));
+//    printf("New Domain:%s\n", Domain_name(domain));
 
-    Domain_addEntity(domain, MAZE_BLOCK, "0,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "1,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "2,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "3,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "4,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "5,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "6,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "7,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "8,0");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,0");
+    int i=0;
+    int j = 0;
+    Point start = {0, 0};
+    Point exit = {0, 0};
+    int idx = 0;
+    for(i=0; i<10; i++){
+        for(j=0; j<10; j++){
+            idx = i*10+j;
+            if(map[idx]=='X'){
+                Domain_addEntity(domain, MAZE_BLOCK, make_atom(j, i));
+            }
+            if(map[idx]=='S'){
+                start.x=j;
+                start.y=i;
+            }else if(map[idx]=='E'){
+                exit.x = j;
+                exit.y = i;
+            }
+        }
+        printf("\n");
+    }
 
-    Domain_addEntity(domain, MAZE_BLOCK, "0,1");
-    Domain_addEntity(domain, MAZE_BLOCK, "3,1");
-    Domain_addEntity(domain, MAZE_BLOCK, "7,1");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,1");
-
-    Domain_addEntity(domain, MAZE_BLOCK, "0,2");
-//    Domain_addEntity(domain, MAZE_BLOCK, "2,2");
-    Domain_addEntity(domain, MAZE_BLOCK, "3,2");
-    Domain_addEntity(domain, MAZE_BLOCK, "7,2");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,2");
-
-    Domain_addEntity(domain, MAZE_BLOCK, "0,3");
-    Domain_addEntity(domain, MAZE_BLOCK, "5,3");
-    Domain_addEntity(domain, MAZE_BLOCK, "6,3");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,3");
-
-    Domain_addEntity(domain, MAZE_BLOCK, "0,4");
-    Domain_addEntity(domain, MAZE_BLOCK, "2,4");
-    Domain_addEntity(domain, MAZE_BLOCK, "3,4");
-    Domain_addEntity(domain, MAZE_BLOCK, "4,4");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,4");
-
-    Domain_addEntity(domain, MAZE_BLOCK, "0,5");
-    Domain_addEntity(domain, MAZE_BLOCK, "4,5");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,5");
-
-    Domain_addEntity(domain, MAZE_BLOCK, "0,6");
-    Domain_addEntity(domain, MAZE_BLOCK, "2,6");
-    Domain_addEntity(domain, MAZE_BLOCK, "6,6");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,6");
-
-    Domain_addEntity(domain, MAZE_BLOCK, "0,7");
-    Domain_addEntity(domain, MAZE_BLOCK, "2,7");
-    Domain_addEntity(domain, MAZE_BLOCK, "3,7");
-    Domain_addEntity(domain, MAZE_BLOCK, "4,7");
-    Domain_addEntity(domain, MAZE_BLOCK, "6,7");
-    Domain_addEntity(domain, MAZE_BLOCK, "7,7");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,7");
-
-    Domain_addEntity(domain, MAZE_BLOCK, "0,8");
-    Domain_addEntity(domain, MAZE_BLOCK, "1,8");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,8");
-
-    Domain_addEntity(domain, MAZE_BLOCK, "0,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "1,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "2,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "3,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "4,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "5,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "6,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "7,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "8,9");
-    Domain_addEntity(domain, MAZE_BLOCK, "9,9");
-
-    Point start = {1, 1};
-    Point exit = {8, 8};
-
+    if(start.x==0 && start.y==0) return 0;
+    
     Stack* stack = Stack_new();
 
     findPath(&start, &exit, stack, domain);
 
+    for(i=0; i<10; i++){
+        for(j=0; j<10; j++){
+            idx = i*10+j;
+            gotoxy(j, i);
+            printf("%c",map[idx]);
+        }
+        printf("\n");
+    }
+    
     do{
         Step* step = Stack_pop(stack);
-        printf("Step(%d)[%d, %d] -> %s\n", step->order, step->point.x, step->point.y, step->direction==RIGHT?"RIGHT":
-        (step->direction==DOWN?"DOWN":
-        (step->direction==LEFT?"LEFT":"UP")));
+//        printf("Step(%d)[%d, %d] -> %s\n", step->order, step->point.x, step->point.y, step->direction==RIGHT?"RIGHT":
+//        (step->direction==DOWN?"DOWN":
+//        (step->direction==LEFT?"LEFT":"UP")));
+        
+        gotoxy(step->point.x, step->point.y);
+        if(step->point.x==exit.x && step->point.y == exit.y){
+            printf("$", step->order);
+        }else if(step->direction==RIGHT)
+            printf(">", step->order);
+        else if(step->direction==DOWN){
+            printf("|", step->order);
+        }else if(step->direction==LEFT){
+            printf("<", step->order);
+        }else if(step->direction==UP){
+            printf("^", step->order);
+        }
+        
         free(step);
     }while(!Stack_isEmpty(stack));
 
     Atom_reset();
     Stack_delete(&stack);
     Domain_delete(&domain);
+    
+    return 0;
 }
 
 int is_canpass(Domain *domain, int x, int y){
@@ -158,7 +166,7 @@ int is_canpass(Domain *domain, int x, int y){
         ret = 0;
     else ret=1;
 
-    printf("checking pass(%d, %d)?%s\n", x, y, ret==1?"TRUE":"FALSE");
+//    printf("checking pass(%d, %d)?%s\n", x, y, ret==1?"TRUE":"FALSE");
 
     return ret;
 }
@@ -193,7 +201,7 @@ void findPath(Point* start, Point* end, Stack* stack, Domain* domain){
                     step = Stack_pop(stack);
                 }
                 if(step->direction<4){
-                    printf("change step(%d)[%d, %d] dir %d to %d\n", step->order, step->point.x, step->point.y, step->direction, step->direction+1);
+//                    printf("change step(%d)[%d, %d] dir %d to %d\n", step->order, step->point.x, step->point.y, step->direction, step->direction+1);
                     step->direction++; // change direction
                     Stack_push(stack, step);
                     curpos->x = step->point.x;
@@ -209,7 +217,7 @@ void findPath(Point* start, Point* end, Stack* stack, Domain* domain){
                         curpos->y-=1;
                         if(curpos->y<0) curpos->y=0;
                     }
-                    printf("curpos[%d, %d]\n", curpos->x, curpos->y);
+//                    printf("curpos[%d, %d]\n", curpos->x, curpos->y);
                 }
             }
         }
