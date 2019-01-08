@@ -76,7 +76,7 @@ void findPath(Point *start, Point *end, Stack* stack, Domain* domain);
 static const char * map =
         "XXXXXXXXXX"
         "XS X   X X"
-        "X XX   X X"
+        "X  X   X X"
         "X    XX  X"
         "X  XXX   X"
         "X    X   X"

@@ -34,7 +34,9 @@ add_library(point-cbase
         src/bit.c
         src/ring.h
         src/ring.c
-        src/stack.c src/stack.h src/bitree.c src/bitree.h)
+        src/stack.c
+        src/stack.h
+        src/fnutil.h )
 
 add_subdirectory(examples)
 
@@ -76,3 +78,6 @@ target_link_libraries(bit.t point-cbase)
 
 add_executable(ring.t src/ring.t.c)
 target_link_libraries(ring.t point-cbase)
+
+add_executable(fnutil.t src/fnutil.t.c)
+
