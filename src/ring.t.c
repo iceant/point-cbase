@@ -42,10 +42,12 @@ int main(int argc, char** argv){
     p = Ring_get(ring, 0);
     printf("\tring(0)=%d\n", *p);
     
-    
-    for(i=0; i<4; i++){
+    int ringLength = Ring_length(ring);
+    for(i=0; i<ringLength; i++){
         Ring_deleteVal(ring, 0);
     }
     
     Ring_delete(&ring);
+    
+    return 0;
 }
