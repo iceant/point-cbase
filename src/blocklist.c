@@ -18,12 +18,12 @@ struct BlockList{
 
 #define BlockLink_DELETE(blockLink, blockList)\
     (blockList)->free((blockLink)->d_block_p);\
-    (blockList)->free((blockLink));\
+    free((blockLink));\
     (blockLink) = NULL;
 
 
 BlockList* BlockList_new(BlockList_malloc mallocFn, BlockList_free freeFn){
-    BlockList * p = mallocFn?mallocFn(sizeof(*p)):malloc(sizeof(*p));
+    BlockList * p = malloc(sizeof(*p));
     assert(p);
     p->d_blockList_p = NULL;
     p->malloc =mallocFn?mallocFn:malloc;
@@ -41,7 +41,7 @@ void BlockList_delete(BlockList** pBlockList){
         BlockLink_DELETE(p, *pBlockList);
     }
 
-    (*pBlockList)->free(*pBlockList);
+    free(*pBlockList);
     *pBlockList=NULL;
 }
 
@@ -57,7 +57,7 @@ void BlockList_release(BlockList* blockList){
 void* BlockList_allocate(BlockList* blockList, size_t nBytes){
     void* p = blockList->malloc(nBytes);
     assert(p);
-    BlockLink * link = blockList->malloc(sizeof(*link));
+    BlockLink * link = malloc(sizeof(*link));
     assert(link);
     link->d_block_p = p;
     link->d_next_p = blockList->d_blockList_p;
