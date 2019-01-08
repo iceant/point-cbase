@@ -20,6 +20,9 @@ void Stack_push(Stack* stk, void* x);
 
 void* Stack_pop(Stack* stk);
 
+void* Stack_top(Stack* stk);
+    // get top without pop.
+
 //////////////////////////////////////////////////////////////////////////////
 //// ACCESSORS
 int Stack_isEmpty(Stack* stk);

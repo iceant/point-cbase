@@ -60,10 +60,21 @@ void *Stack_pop(Stack *stk) {
     return x;
 }
 
+void *Stack_top(Stack *stk) {
+    assert(stk);
+    assert(stk->count>0);
+    
+    struct elem * t;
+    t = stk->head;
+    return t->x;
+}
+
 int Stack_isEmpty(Stack *stk) {
     assert(stk);
     return stk->count == 0;
 }
+
+
 
 
 
